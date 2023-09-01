@@ -4,6 +4,7 @@ import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
 
 from lib.helper import wait_exists
 
@@ -24,7 +25,9 @@ def add_cookies(driver):
 # Setup function to initialize webdriver
 @pytest.fixture(scope="class")
 def setup(request):
-    driver = webdriver.Chrome(executable_path=CHROME_EXEC)
+    service = Service(executable_path=CHROME_EXEC)
+    options = webdriver.ChromeOptions()
+    driver = webdriver.Chrome(service=service, options=options)
     request.cls.driver = driver
 
     # Open the page to get to the correct domain before loading cookies
